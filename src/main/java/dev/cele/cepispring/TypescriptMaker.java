@@ -36,6 +36,7 @@ public class TypescriptMaker implements Runnable {
             entities = new HashMap<>();
         }
 
+        //converting the DTOs to Typescript
         Map<File, CompilationUnit> finalEntities = entities;
         dtos.forEach((file, dto) -> {
             //finding the entity with the same name as this DTO
