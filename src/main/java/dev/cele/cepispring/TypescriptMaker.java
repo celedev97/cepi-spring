@@ -47,16 +47,18 @@ public class TypescriptMaker implements Runnable {
             String typeScript = convertToTypescript(dto, dtoEntity);
             System.out.println(typeScript);
             if(options.output != null){
+
                 String typeScriptFileName = dtoName.replaceAll("(?i)dto","") + ".model.ts";
                 Path outputFilePath = options.output.resolve(typeScriptFileName);
 
+                System.out.println("Writing to file: "+outputFilePath);
+
                 try {
                     Files.createDirectories(outputFilePath.getParent());
-                    Files.createFile(outputFilePath);
-
                     Files.write(outputFilePath, typeScript.getBytes());
+                    System.out.println("Done!");
                 } catch (IOException e) {
-                    System.out.println("There was an error writing the file "+outputFilePath);
+                    System.out.println("There was an error writing the file: "+outputFilePath);
                 }
             }
         });
