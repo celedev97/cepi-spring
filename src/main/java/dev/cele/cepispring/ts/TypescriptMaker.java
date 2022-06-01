@@ -15,6 +15,8 @@ import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class TypescriptMaker implements Runnable {
     private final CLIOptions options;
@@ -55,7 +57,7 @@ public class TypescriptMaker implements Runnable {
             System.out.println(typeScript);
             if(options.output != null){
 
-                String typeScriptFileName = dtoName.replaceAll("(?i)dto","") + ".model.ts";
+                String typeScriptFileName = convertClassNameToFileName(dtoName.replaceAll("(?i)dto",""));
                 Path outputFilePath = options.output.resolve(typeScriptFileName);
 
                 System.out.println("Writing to file: "+outputFilePath);
@@ -149,4 +151,12 @@ public class TypescriptMaker implements Runnable {
         return type.toString().replaceAll("(?i)dto", "");
     }
 
+    private String convertClassNameToFileName(String className) {
+        return className.chars().mapToObj(c -> ""+(char)c).map(c -> {
+            if(Character.isUpperCase(c.charAt(0))){
+                return "-"+c.toLowerCase();
+            }
+            return c;
+        }).collect(Collectors.joining()).substring(1) + ".model.ts";
+    }
 }
