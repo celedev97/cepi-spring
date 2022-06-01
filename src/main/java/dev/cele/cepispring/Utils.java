@@ -102,4 +102,13 @@ public class Utils {
             return coi.isInterface();
         }).collect(HashMap::new, (m, e) -> m.put(e.getKey(), e.getValue()), HashMap::putAll);
     }
+
+    public static String toKebabCase(String className) {
+        return className.chars().mapToObj(c -> ""+(char)c).map(c -> {
+            if(Character.isUpperCase(c.charAt(0))){
+                return "-"+c.toLowerCase();
+            }
+            return c;
+        }).collect(Collectors.joining()).substring(1);
+    }
 }

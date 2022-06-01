@@ -6,7 +6,7 @@
 
     <groupId>dev.cele</groupId>
     <artifactId>cepi-spring</artifactId>
-    <version>0.3</version>
+    <version>0.5</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
