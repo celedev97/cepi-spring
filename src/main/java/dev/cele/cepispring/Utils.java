@@ -1,6 +1,7 @@
 package dev.cele.cepispring;
 
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.utils.SourceRoot;
 
 import java.io.File;
@@ -57,7 +58,7 @@ public class Utils {
         return output;
     }
 
-    public static Map<File, CompilationUnit> filterByPackageOrClassContains(HashMap<File, CompilationUnit> javaFiles, String filterString){
+    public static Map<File, CompilationUnit> filterByPackageOrClassContains(Map<File, CompilationUnit> javaFiles, String filterString){
         String filter = filterString.toLowerCase();
         return javaFiles.entrySet().stream().filter( entry ->{
             CompilationUnit cu = entry.getValue();
@@ -68,4 +69,37 @@ public class Utils {
         }).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
+    public static Map<File, CompilationUnit> filterByHasAnnotation(Map<File, CompilationUnit> javaFiles, String filterString){
+        return javaFiles.entrySet().stream()
+                .filter(entry ->{
+                    if(!entry.getValue().getType(0).isClassOrInterfaceDeclaration()){
+                        return false;
+                    }
+                    ClassOrInterfaceDeclaration coi = (ClassOrInterfaceDeclaration) entry.getValue().getType(0);
+
+                    return coi.isAnnotationPresent(filterString);
+                }).collect(HashMap::new, (m, e) -> m.put(e.getKey(), e.getValue()), HashMap::putAll);
+    }
+
+    public static Map<File, CompilationUnit> filterByIsClass(Map<File, CompilationUnit> javaFiles) {
+        return javaFiles.entrySet().stream().filter(entry -> {
+            if(!entry.getValue().getType(0).isClassOrInterfaceDeclaration()){
+                return false;
+            }
+            ClassOrInterfaceDeclaration coi = (ClassOrInterfaceDeclaration) entry.getValue().getType(0);
+
+            return !coi.isInterface();
+        }).collect(HashMap::new, (m, e) -> m.put(e.getKey(), e.getValue()), HashMap::putAll);
+    }
+
+    public static Map<File, CompilationUnit> filterByIsInterface(Map<File, CompilationUnit> javaFiles) {
+        return javaFiles.entrySet().stream().filter(entry -> {
+            if(!entry.getValue().getType(0).isClassOrInterfaceDeclaration()){
+                return false;
+            }
+            ClassOrInterfaceDeclaration coi = (ClassOrInterfaceDeclaration) entry.getValue().getType(0);
+
+            return coi.isInterface();
+        }).collect(HashMap::new, (m, e) -> m.put(e.getKey(), e.getValue()), HashMap::putAll);
+    }
 }

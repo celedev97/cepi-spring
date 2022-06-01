@@ -1,10 +1,12 @@
-package dev.cele.cepispring;
+package dev.cele.cepispring.ts;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.Type;
+import dev.cele.cepispring.CLIOptions;
+import dev.cele.cepispring.Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,7 +30,11 @@ public class TypescriptMaker implements Runnable {
 
         //getting the DTOs
         Map<File, CompilationUnit> dtos = Utils.filterByPackageOrClassContains(javaFiles ,"dto");
-        Map<File, CompilationUnit> entities = Utils.filterByPackageOrClassContains(javaFiles ,"entity");
+        Map<File, CompilationUnit> entities = Utils.filterByHasAnnotation(javaFiles ,"Entity");
+
+        if(options.useEntities){
+            dtos = entities;
+        }
 
 
         if(dtos.size() == 0){

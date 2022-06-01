@@ -1,5 +1,7 @@
 package dev.cele.cepispring;
 
+import dev.cele.cepispring.crud.CrudMaker;
+import dev.cele.cepispring.ts.TypescriptMaker;
 import picocli.CommandLine;
 
 public class Main {
@@ -21,7 +23,7 @@ public class Main {
         }
 
         if(options.crud){
-            System.out.println("Not Implemented yet");
+            new CrudMaker(options).run();
             return;
         }
 

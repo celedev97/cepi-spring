@@ -7,7 +7,7 @@ import java.io.File;
 import java.nio.file.Path;
 
 @CommandLine.Command(
-        name = "cepi-fastcrud",
+        name = "cepi-spring",
         mixinStandardHelpOptions = true,
         version = "1.0",
         description = "Create CRUDS or Typescript interfaces from Java source code")
@@ -16,7 +16,10 @@ public class CLIOptions {
     @CommandLine.Option(names = {"-t", "--typescript"}, description = "generate typescript interfaces")
     public boolean typescript;
 
-    @CommandLine.Option(names = {"-c", "--crud"}, description = "generate c# interfaces")
+    @CommandLine.Option(names = {"-e", "--entities"}, description = "use entities to generate typescript interfaces")
+    public boolean useEntities;
+
+    @CommandLine.Option(names = {"-c", "--crud"}, description = "generate crud stuff for spring")
     public boolean crud;
 
     @CommandLine.Option(
