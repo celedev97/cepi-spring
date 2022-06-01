@@ -128,8 +128,6 @@ public class CrudMaker implements Runnable {
         System.out.println("Found " + unmappedEntities.size() + " unmapped entities:");
         unmappedEntities.forEach((file, cu) -> System.out.println(cu.getType(0).getNameAsString()));
 
-        pic
-
         //creating cruds for unmapped entities
         unmappedEntities.forEach((file, entity) -> createCrud(entity));
     }
