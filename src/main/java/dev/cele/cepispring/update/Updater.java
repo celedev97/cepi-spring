@@ -91,7 +91,7 @@ public class Updater {
 
                 Files.write(Paths.get("update.sh"), command.toString().getBytes());
 
-                ProcessBuilder chmod = new ProcessBuilder("chmod", "777", "test.sh");
+                ProcessBuilder chmod = new ProcessBuilder("chmod", "777", "update.sh");
                 chmod.start().waitFor();
 
                 ProcessBuilder pb = new ProcessBuilder("./update.sh");
