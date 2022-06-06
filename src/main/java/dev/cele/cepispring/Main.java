@@ -2,11 +2,15 @@ package dev.cele.cepispring;
 
 import dev.cele.cepispring.crud.CrudMaker;
 import dev.cele.cepispring.ts.TypescriptMaker;
+import dev.cele.cepispring.update.Updater;
 import picocli.CommandLine;
+
 
 public class Main {
 
     public static void main(String[] args) {
+        Updater.checkUpdates();
+
         //parsing CLI Option
         CLIOptions options = new CLIOptions();
         new CommandLine(options).parseArgs(args);
@@ -30,4 +34,6 @@ public class Main {
         new CommandLine(options).usage(System.out);
 
     }
+
+
 }
